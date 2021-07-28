@@ -14,9 +14,8 @@ class Calculator
 
     public function setOperations( array $operations )
     {
-        $filteredOperations = array_filter( $operations, function ( $operation ) {
-            return $operation instanceof OperationInterface;
-        } );
+        $filteredOperations = array_filter( $operations, fn( $operation ) =>
+            $operation instanceof OperationInterface );
 
         $this->operations = array_merge( $this->operations, $filteredOperations );
     }
@@ -29,9 +28,7 @@ class Calculator
     public function calculate()
     {
         if ( count( $this->operations ) > 1 ) {
-            return array_map( function ( $operation ) {
-                return $operation->calculate();
-            }, $this->operations );
+            return array_map( fn( $operation ) => $operation->calculate(), $this->operations );
         }
 
         return $this->operations[0]->calculate();
